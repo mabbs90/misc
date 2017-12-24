@@ -60,7 +60,6 @@ def load_image_into_numpy_array(image):
 
 def read_traffic_lights(image, boxes, scores, classes, max_boxes_to_draw=20, min_score_thresh=0.5, traffic_ligth_label=10):
     im_width, im_height, _ = image.shape
-    # im_width, im_height = image.size
     red_flag = False
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
         if scores[i] > min_score_thresh and classes[i] == traffic_ligth_label:
@@ -72,10 +71,8 @@ def read_traffic_lights(image, boxes, scores, classes, max_boxes_to_draw=20, min
             left = np.int(np.floor(left))
             right = np.int(np.floor(right))
 
-            # crop_img = image.crop((left, top, right, bottom))
             crop_img = image[top:bottom, left:right, :]
 
-	    print(crop_img.shape)
             if detect_red(crop_img):
                 red_flag = True
 
@@ -99,7 +96,9 @@ class TLClassifier(object):
         print('\n\n * * * * * SUCCESSFULLY LOADED THE GRAPH * * * * * \n\n')
         self.detection_graph = detection_graph
 
-
+    
+    def recognize(self):
+        print('I recognize that I have light classification :)\n')
 
 
     def get_classification(self, image):
@@ -112,6 +111,7 @@ class TLClassifier(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
+        print('\n\n About to classify an image \n\n')
         detection_graph = self.detection_graph
 
         with detection_graph.as_default():
@@ -129,10 +129,13 @@ class TLClassifier(object):
 
                 # the array based representation of the image will be used later in order to prepare the
                 # result image with boxes and labels on it.
-                image_np = load_image_into_numpy_array(image)
+
+                ## since image is already numpy array, we remove this
+                ## image_np = load_image_into_numpy_array(image)
 
                 # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-                image_np_expanded = np.expand_dims(image_np, axis=0)
+                ## image_np_expanded = np.expand_dims(image_np, axis=0)
+                image_np_expanded = np.expand_dims(image, axis=0)
 
                 # Actual detection.
                 (boxes, scores, classes, num) = sess.run([detection_boxes, 
@@ -141,10 +144,7 @@ class TLClassifier(object):
                                                           num_detections],
                                                          feed_dict={image_tensor: image_np_expanded})
                 
-                print('\n\n\nRAN THE MODEL ON THE IMAGE\n\n\n')
-                print(num)
-                img = np.array(image)
-                red_flag = read_traffic_lights(img, 
+                red_flag = read_traffic_lights(image, 
                                                np.squeeze(boxes), 
                                                np.squeeze(scores), 
                                                np.squeeze(classes).astype(np.int32))
