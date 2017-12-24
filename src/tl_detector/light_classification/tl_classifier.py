@@ -59,7 +59,7 @@ def load_image_into_numpy_array(image):
 
 
 def read_traffic_lights(image, boxes, scores, classes, max_boxes_to_draw=20, min_score_thresh=0.5, traffic_ligth_label=10):
-    im_width, im_height, _ = image.shape
+    im_height, im_width, _ = image.shape
     red_flag = False
     for i in range(min(max_boxes_to_draw, boxes.shape[0])):
         if scores[i] > min_score_thresh and classes[i] == traffic_ligth_label:
