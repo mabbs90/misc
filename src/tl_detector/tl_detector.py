@@ -44,7 +44,6 @@ class TLDetector(object):
 
         self.bridge = CvBridge()
         self.light_classifier = TLClassifier()
-        self.light_classifier.recognize() ## just to test
         self.listener = tf.TransformListener()
 
         self.state = TrafficLight.UNKNOWN
