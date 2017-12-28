@@ -20,6 +20,8 @@
 	  * pip install lxml matplotlib
       * apt-get install protobuf-compiler python-pil python-lxml
         python-tk
+          * Make sure you have Tensorflow version 1.3 installed. To do that:
+	 sudo pip install tensorflow==1.3
 		
 	* Long Version
 	  + Follow https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md

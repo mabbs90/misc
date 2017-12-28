@@ -112,7 +112,7 @@ class TLClassifier(object):
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
         
-	os.chdir(os.path.dirname(os.getcwd())
+	os.chdir(os.path.dirname(os.getcwd()))
         sess = tf.Session(graph = detection_graph)
 
         # Definite input and output Tensors for detection_graph
