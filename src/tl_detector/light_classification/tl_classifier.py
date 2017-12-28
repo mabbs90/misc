@@ -84,17 +84,18 @@ class TLClassifier(object):
 
         # Path to frozen detection graph. This is the actual model that is used for the object detection.
         SUB_PATH = 'light_classification/'        
-        MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
+        os.chdir(SUB_PATH)
+	MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
         MODEL_FILE = MODEL_NAME + '.tar.gz'
         DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
-        PATH_TO_CKPT = SUB_PATH + MODEL_NAME + '/frozen_inference_graph.pb'
+        PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 
 
         #--------Download model----------
         if path.isdir(MODEL_NAME) is False:
             print('\n\nPlease wait while we download the model :)\n\n')
             opener = urllib.request.URLopener()
-            opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, SUB_PATH + MODEL_FILE)
+            opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
             tar_file = tarfile.open(MODEL_FILE)
             for file in tar_file.getmembers():
                 file_name = os.path.basename(file.name)
@@ -111,6 +112,7 @@ class TLClassifier(object):
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
         
+	os.chdir(os.path.dirname(os.getcwd())
         sess = tf.Session(graph = detection_graph)
 
         # Definite input and output Tensors for detection_graph
