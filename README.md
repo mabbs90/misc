@@ -1,6 +1,10 @@
 # misc
 
 ## A few steps to take:
+0. Copy only two files from this repo to yours
+   * Replace your tl_detector.py with this repo's tl_detector.py
+   * Replace your tl_classifier.py with this repo's tl_classifier.py
+
 1. Download Tensorflow's object detection API
 	* Clone Tensorflow's model repo
       (https://github.com/tensorflow/models)
@@ -11,7 +15,8 @@
 	  with all its contents
 	  
 2. Make sure you have the dependencies installed
-	* Short version (only if using docker)
+	* Short version (only if using docker, since docker installation
+      had a lot of dependencies resolved)
 	  * pip install lxml matplotlib
       * apt-get install protobuf-compiler python-pil python-lxml
         python-tk
