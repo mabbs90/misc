@@ -8,8 +8,8 @@ import tensorflow as tf
 from matplotlib import pyplot as plt
 from PIL import Image
 from os import path
-from utils import label_map_util
-from utils import visualization_utils as vis_util
+## from utils import label_map_util
+## from utils import visualization_utils as vis_util
 import time
 import cv2
 
@@ -83,8 +83,25 @@ class TLClassifier(object):
         #TODO load classifier
 
         # Path to frozen detection graph. This is the actual model that is used for the object detection.
-        PATH_TO_CKPT = 'light_classification/faster_rcnn_resnet101_coco_11_06_2017' + '/frozen_inference_graph.pb'
+        SUB_PATH = 'light_classification/'        
+        MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
+        MODEL_FILE = MODEL_NAME + '.tar.gz'
+        DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+        PATH_TO_CKPT = SUB_PATH + MODEL_NAME + '/frozen_inference_graph.pb'
 
+
+        #--------Download model----------
+        if path.isdir(MODEL_NAME) is False:
+            print('\n\nPlease wait while we download the model :)\n\n')
+            opener = urllib.request.URLopener()
+            opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, SUB_PATH + MODEL_FILE)
+            tar_file = tarfile.open(MODEL_FILE)
+            for file in tar_file.getmembers():
+                file_name = os.path.basename(file.name)
+                if 'frozen_inference_graph.pb' in file_name:
+                    tar_file.extract(file, os.getcwd())
+
+        print('\n\nModel download is done\n\n')
         #--------Load a (frozen) Tensorflow model into memory
         detection_graph = tf.Graph()
         with detection_graph.as_default():
