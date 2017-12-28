@@ -8,14 +8,8 @@ import tensorflow as tf
 from matplotlib import pyplot as plt
 from PIL import Image
 from os import path
-## from utils import label_map_util
-## from utils import visualization_utils as vis_util
 import time
 import cv2
-
-##import functions.detect_red
-##import functions.load_image_into_numpy_array
-##import functions.read_traffic_lights
 
 
 def detect_red(img, Threshold=0.01):
@@ -83,9 +77,7 @@ class TLClassifier(object):
         #TODO load classifier
 
         # Path to frozen detection graph. This is the actual model that is used for the object detection.
-        SUB_PATH = 'light_classification/'        
-        os.chdir(SUB_PATH)
-	MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
+        MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
         MODEL_FILE = MODEL_NAME + '.tar.gz'
         DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
         PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
@@ -112,7 +104,6 @@ class TLClassifier(object):
                 od_graph_def.ParseFromString(serialized_graph)
                 tf.import_graph_def(od_graph_def, name='')
         
-	os.chdir(os.path.dirname(os.getcwd()))
         sess = tf.Session(graph = detection_graph)
 
         # Definite input and output Tensors for detection_graph
